@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f0f0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Photo Notebook</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUGhvdG8gTm90ZWJvb2siLCJzaG9ydF9uYW1lIjoiTm90ZWJvb2siLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBmMGYwZiIsInRoZW1lX2NvbG9yIjoiIzBmMGYwZiIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDE5MiAxOTInIGZpbGw9J25vbmUnJTNFJTNDcmVjdCB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE5Micgcng9JzMyJyBmaWxsPSclMjM2MzY2ZjEnLyUzRSUzQ3BhdGggZD0nTTEwMCA4MGMwLTExLjA0Ni04Ljk1NC0yMC0yMC0yMHMtMjAgOC45NTQtMjAgMjB2MzJjMCAxMS4wNDYgOC45NTQgMjAgMjAgMjBzMjAtOC45NTQgMjAtMjBWOHptMzIgMGMwLTExLjA0Ni04Ljk1NC0yMC0yMC0yMHMtMjAgOC45NTQtMjAgMjB2MzJjMCAxMS4wNDYgOC45NTQgMjAgMjAgMjBzMjAtOC45NTQgMjAtMjBWOHptMzIgMGMwLTExLjA0Ni04Ljk1NC0yMC0yMC0yMHMtMjAgOC45NTQtMjAgMjB2MzJjMCAxMS4wNDYgOC45NTQgMjAgMjAgMjBzMjAtOC45NTQgMjAtMjBWOHptLTk2IDk2YzAtMTEuMDQ2LTguOTU0LTIwLTIwLTIwcy0yMCA4Ljk1NC0yMCAyMHYzMmMwIDExLjA0NiA4Ljk1NCAyMCAyMCAyMHMyMC04Ljk1NCAyMC0yMHYtMzJ6bTMyIDBjMC0xMS4wNDYtOC45NTQtMjAtMjAtMjBzLTIwIDguOTU0LTIwIDIwdjMyYzAgMTEuMDQ2IDguOTU0IDIwIDIwIDIwczIwLTguOTU0IDIwLTIwdi0zMnptMzIgMGMwLTExLjA0Ni04Ljk1NC0yMC0yMC0yMHMtMjAgOC45NTQtMjAgMjB2MzJjMCAxMS4wNDYgOC45NTQgMjAgMjAgMjBzMjAtOC45NTQgMjAtMjB2LTMyeicgZmlsbD0nd2hpdGUnLyUzRSUzQy9zdmclM0UiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --surface: #1a1a1a;
+            --surface-2: #252525;
+            --surface-3: #333333;
+            --text: #f0f0f0;
+            --text-2: #a0a0a0;
+            --accent: #6366f1;
+            --accent-2: #8b5cf6;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --shadow: 0 8px 32px rgba(0,0,0,0.4);
+            --glass: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.08);
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f5;
+            --surface: #ffffff;
+            --surface-2: #f0f0f0;
+            --surface-3: #e0e0e0;
+            --text: #1a1a1a;
+            --text-2: #666666;
+            --accent: #4f46e5;
+            --accent-2: #7c3aed;
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --glass: rgba(0,0,0,0.03);
+            --border: rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 3px; }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(15,15,15,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 12px 16px;
+            transition: all 0.3s;
+        }
+        [data-theme="light"] .header { background: rgba(255,255,255,0.85); }
+
+        .header-content {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 1.3rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; -webkit-text-fill-color: white;
+        }
+
+        .header-actions {
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .btn-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            border: none; background: var(--surface-2);
+            color: var(--text); font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-icon:active { transform: scale(0.92); background: var(--surface-3); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white; border: none; padding: 10px 18px;
+            border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+            display: flex; align-items: center; gap: 6px; cursor: pointer;
+            transition: all 0.2s; box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+        }
+        .btn-primary:active { transform: scale(0.95); }
+
+        /* Main Content */
+        .main {
+            max-width: 1200px; margin: 0 auto;
+            padding: 80px 16px 100px;
+        }
+
+        /* Search & Filter Bar */
+        .toolbar {
+            display: flex; flex-direction: column; gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-box {
+            position: relative; width: 100%;
+        }
+        .search-box input {
+            width: 100%; padding: 12px 16px 12px 44px;
+            border-radius: 12px; border: 1px solid var(--border);
+            background: var(--surface); color: var(--text);
+            font-size: 1rem; outline: none; transition: all 0.2s;
+        }
+        .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+        .search-box::before {
+            content: "🔍"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 1rem; opacity: 0.6;
+        }
+
+        .filter-row {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .filter-row::-webkit-scrollbar { display: none; }
+
+        .chip {
+            padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border);
+            background: var(--surface); color: var(--text-2); font-size: 0.85rem;
+            white-space: nowrap; cursor: pointer; transition: all 0.2s; user-select: none;
+        }
+        .chip.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white; border-color: transparent;
+        }
+        .chip:active { transform: scale(0.95); }
+
+        .view-toggle {
+            display: flex; background: var(--surface); border-radius: 10px; padding: 4px;
+            border: 1px solid var(--border); margin-left: auto;
+        }
+        .view-toggle button {
+            padding: 6px 12px; border: none; background: transparent;
+            color: var(--text-2); border-radius: 8px; cursor: pointer; font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .view-toggle button.active { background: var(--surface-3); color: var(--text); }
+
+        /* Stats */
+        .stats {
+            display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .stat-card {
+            flex: 1; min-width: 120px; padding: 16px; border-radius: 14px;
+            background: var(--surface); border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .stat-card h3 { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+        .stat-card p { font-size: 0.8rem; color: var(--text-2); margin-top: 4px; }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .photo-grid.list {
+            grid-template-columns: 1fr;
+        }
+
+        .photo-card {
+            background: var(--surface); border-radius: 16px;
+            border: 1px solid var(--border); overflow: hidden;
+            transition: all 0.3s; cursor: pointer; position: relative;
+            box-shadow: var(--shadow);
+        }
+        .photo-card:active { transform: scale(0.98); }
+        .photo-card:hover { transform: translateY(-2px); }
+
+        .photo-card .img-wrap {
+            width: 100%; aspect-ratio: 16/10; overflow: hidden;
+            background: var(--surface-2); position: relative;
+        }
+        .photo-card .img-wrap img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .photo-card:hover .img-wrap img { transform: scale(1.05); }
+
+        .photo-card .img-wrap .category-badge {
+            position: absolute; top: 10px; left: 10px;
+            padding: 4px 10px; border-radius: 8px;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+            color: white; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+        }
+
+        .photo-card .img-wrap .fav-btn {
+            position: absolute; top: 10px; right: 10px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border: none; color: white; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .photo-card .img-wrap .fav-btn.active { color: #ef4444; }
+        .photo-card .img-wrap .fav-btn:active { transform: scale(0.9); }
+
+        .photo-card .content {
+            padding: 14px;
+        }
+        .photo-card .content h3 {
+            font-size: 1rem; font-weight: 600; margin-bottom: 6px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .photo-card .content .meta {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.75rem; color: var(--text-2);
+        }
+        .photo-card .content .tags {
+            display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;
+        }
+        .photo-card .content .tag {
+            padding: 3px 8px; border-radius: 6px;
+            background: var(--surface-2); font-size: 0.7rem; color: var(--text-2);
+        }
+
+        .photo-card .actions {
+            display: flex; gap: 8px; padding: 0 14px 14px;
+        }
+        .photo-card .actions button {
+            flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--surface-2); color: var(--text); font-size: 0.8rem;
+            cursor: pointer; transition: all 0.2s; display: flex; align-items: center;
+            justify-content: center; gap: 4px;
+        }
+        .photo-card .actions button.delete { color: var(--danger); }
+        .photo-card .actions button:active { background: var(--surface-3); }
+
+        /* List View */
+        .photo-grid.list .photo-card {
+            display: flex; flex-direction: row; align-items: stretch;
+        }
+        .photo-grid.list .photo-card .img-wrap {
+            width: 140px; min-width: 140px; aspect-ratio: auto; height: auto;
+        }
+        .photo-grid.list .photo-card .content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .photo-grid.list .photo-card .actions { flex-direction: column; padding: 14px; width: 100px; min-width: 100px; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center; padding: 60px 20px;
+            color: var(--text-2);
+        }
+        .empty-state .icon { font-size: 4rem; margin-bottom: 16px; opacity: 0.5; }
+        .empty-state h2 { font-size: 1.3rem; margin-bottom: 8px; color: var(--text); }
+        .empty-state p { font-size: 0.9rem; margin-bottom: 24px; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+            padding: 16px; opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal {
+            background: var(--surface); border-radius: 20px;
+            width: 100%; max-width: 500px; max-height: 90vh;
+            overflow: hidden; display: flex; flex-direction: column;
+            transform: scale(0.9) translateY(20px); transition: transform 0.3s;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+        }
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+        .modal-header {
+            padding: 20px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-header h2 { font-size: 1.2rem; }
+        .modal-header .close-btn {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: none; background: var(--surface-2); color: var(--text);
+            font-size: 1.2rem; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 16px;
+        }
+
+        .form-group label {
+            display: block; font-size: 0.85rem; font-weight: 600;
+            margin-bottom: 6px; color: var(--text-2);
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px 14px; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--bg);
+            color: var(--text); font-size: 0.95rem; outline: none;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+
+        .upload-zone {
+            border: 2px dashed var(--surface-3); border-radius: 14px;
+            padding: 30px; text-align: center; cursor: pointer;
+            transition: all 0.2s; background: var(--bg);
+        }
+        .upload-zone.dragover { border-color: var(--accent); background: rgba(99,102,241,0.05); }
+        .upload-zone .upload-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .upload-zone p { color: var(--text-2); font-size: 0.9rem; }
+        .upload-zone .file-input { display: none; }
+
+        .preview-img {
+            width: 100%; border-radius: 10px; max-height: 200px; object-fit: cover;
+            display: none; margin-top: 10px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px; border-top: 1px solid var(--border);
+            display: flex; gap: 10px; justify-content: flex-end;
+        }
+        .modal-footer button {
+            padding: 10px 20px; border-radius: 10px; border: none;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .modal-footer .btn-secondary { background: var(--surface-2); color: var(--text); }
+        .modal-footer .btn-secondary:active { background: var(--surface-3); }
+        .modal-footer .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: white; }
+        .modal-footer .btn-primary:active { transform: scale(0.95); }
+        .modal-footer .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 3000; display: none; flex-direction: column;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .lightbox.active { display: flex; opacity: 1; }
+        .lightbox-img {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 20px; overflow: hidden;
+        }
+        .lightbox-img img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .lightbox-info {
+            padding: 16px 20px; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .lightbox-info h3 { color: white; font-size: 1.1rem; margin-bottom: 4px; }
+        .lightbox-info p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+        .lightbox-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border: none; color: white; font-size: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10;
+        }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border: none; color: white; font-size: 1.3rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10;
+        }
+        .lightbox-nav.prev { left: 16px; }
+        .lightbox-nav.next { right: 16px; }
+
+        /* Toast */
+        .toast-container {
+            position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+            z-index: 4000; display: flex; flex-direction: column; gap: 8px;
+            pointer-events: none;
+        }
+        .toast {
+            background: var(--surface); color: var(--text); padding: 12px 20px;
+            border-radius: 12px; border: 1px solid var(--border);
+            box-shadow: var(--shadow); font-size: 0.9rem;
+            display: flex; align-items: center; gap: 8px;
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+            pointer-events: auto; white-space: nowrap;
+        }
+        .toast.success { border-left: 3px solid var(--success); }
+        .toast.error { border-left: 3px solid var(--danger); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+
+        /* FAB */
+        .fab {
+            position: fixed; bottom: 24px; right: 24px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white; border: none; font-size: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(99,102,241,0.4);
+            transition: all 0.3s; z-index: 500;
+        }
+        .fab:active { transform: scale(0.9); }
+        .fab.hidden { transform: scale(0) rotate(180deg); }
+
+        /* Bottom Sheet (Mobile) */
+        .sheet-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 2500; display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .sheet-overlay.active { display: block; opacity: 1; }
+        .sheet {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--surface); border-radius: 20px 20px 0 0;
+            padding: 20px; transform: translateY(100%); transition: transform 0.3s;
+            z-index: 2501; max-height: 70vh; overflow-y: auto;
+        }
+        .sheet-overlay.active + .sheet, .sheet.active { transform: translateY(0); }
+        .sheet-handle {
+            width: 40px; height: 4px; background: var(--surface-3);
+            border-radius: 2px; margin: 0 auto 20px;
+        }
+        .sheet-item {
+            padding: 14px; border-radius: 12px; display: flex;
+            align-items: center; gap: 12px; cursor: pointer;
+            transition: background 0.2s; color: var(--text);
+        }
+        .sheet-item:active { background: var(--surface-2); }
+        .sheet-item.danger { color: var(--danger); }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+            background-size: 200% 100%; animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .header-content { padding: 0; }
+            .logo span { display: none; }
+            .photo-grid { grid-template-columns: 1fr; }
+            .photo-grid.list .photo-card { flex-direction: column; }
+            .photo-grid.list .photo-card .img-wrap { width: 100%; aspect-ratio: 16/10; }
+            .photo-grid.list .photo-card .actions { flex-direction: row; width: 100%; }
+            .stats { gap: 8px; }
+            .stat-card { min-width: calc(50% - 4px); padding: 12px; }
+            .lightbox-nav { display: none; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .photo-card { animation: fadeInUp 0.4s ease backwards; }
+
+        /* Pull to refresh hint */
+        .ptr-hint {
+            text-align: center; padding: 10px; color: var(--text-2);
+            font-size: 0.8rem; opacity: 0; transition: opacity 0.3s;
+        }
+        .ptr-hint.visible { opacity: 1; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">📓</div>
+                <span>Photo Notebook</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="app.toggleTheme()" title="Toggle Theme">🌓</button>
+                <button class="btn-icon" onclick="app.showImportExport()" title="Backup">💾</button>
+                <button class="btn-primary" onclick="app.openAddModal()">
+                    <span>+</span> Add Photo
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="ptr-hint" id="ptrHint">↓ Pull to refresh</div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <h3 id="statTotal">0</h3>
+                <p>Total Photos</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="statFav">0</h3>
+                <p>Favorites</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="statSize">0 MB</h3>
+                <p>Storage Used</p>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by title, tag, or category..." oninput="app.search()">
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="filter-row" id="filterChips">
+                    <div class="chip active" data-filter="all" onclick="app.setFilter('all')">All</div>
+                    <div class="chip" data-filter="favorites" onclick="app.setFilter('favorites')">⭐ Favorites</div>
+                    <div class="chip" data-filter="recent" onclick="app.setFilter('recent')">🕒 Recent</div>
+                </div>
+                <div class="view-toggle">
+                    <button class="active" onclick="app.setView('grid')" id="btnGrid">⊞</button>
+                    <button onclick="app.setView('list')" id="btnList">☰</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-grid" id="photoGrid"></div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="icon">📷</div>
+            <h2>No photos yet</h2>
+            <p>Tap the + button to add your first coaching board photo!</p>
+        </div>
+    </main>
+
+    <button class="fab" id="fab" onclick="app.openAddModal()">+</button>
+
+    <!-- Add Photo Modal -->
+    <div class="modal-overlay" id="addModal" onclick="if(event.target===this)app.closeAddModal()">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>📸 Add New Photo</h2>
+                <button class="close-btn" onclick="app.closeAddModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📁</div>
+                    <p><strong>Tap to choose photo</strong><br><small>or drag & drop here</small></p>
+                    <input type="file" class="file-input" id="fileInput" accept="image/*" onchange="app.handleFile(this.files[0])">
+                    <img class="preview-img" id="previewImg" alt="Preview">
+                </div>
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="photoTitle" placeholder="e.g., Physics Lecture - Chapter 5">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="photoCategory">
+                        <option value="General">General</option>
+                        <option value="Math">Math</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Notes">Notes</option>
+                        <option value="Formula">Formula</option>
+                        <option value="Diagram">Diagram</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tags (comma separated)</label>
+                    <input type="text" id="photoTags" placeholder="e.g., important, exam, revision">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="photoDesc" placeholder="Add any notes about this photo..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="app.closeAddModal()">Cancel</button>
+                <button class="btn-primary" id="saveBtn" onclick="app.savePhoto()" disabled>Save Photo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="if(event.target===this || event.target.classList.contains('lightbox-img'))app.closeLightbox()">
+        <button class="lightbox-close" onclick="app.closeLightbox()">×</button>
+        <button class="lightbox-nav prev" onclick="app.navLightbox(-1)">‹</button>
+        <button class="lightbox-nav next" onclick="app.navLightbox(1)">›</button>
+        <div class="lightbox-img">
+            <img id="lightboxImg" src="" alt="">
+        </div>
+        <div class="lightbox-info" id="lightboxInfo"></div>
+    </div>
+
+    <!-- Import/Export Sheet -->
+    <div class="sheet-overlay" id="sheetOverlay" onclick="app.closeSheet()"></div>
+    <div class="sheet" id="sheet">
+        <div class="sheet-handle"></div>
+        <h3 style="margin-bottom: 16px; font-size: 1.1rem;">Backup & Restore</h3>
+        <div class="sheet-item" onclick="app.exportData()">
+            <span>📤</span> Export All Data (JSON)
+        </div>
+        <div class="sheet-item" onclick="document.getElementById('importFile').click()">
+            <span>📥</span> Import Data
+            <input type="file" id="importFile" style="display:none" accept=".json" onchange="app.importData(this)">
+        </div>
+        <div class="sheet-item danger" onclick="app.clearAll()">
+            <span>🗑️</span> Clear All Photos
+        </div>
+        <div class="sheet-item" onclick="app.closeSheet()">
+            <span>✕</span> Cancel
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        class PhotoNotebook {
+            constructor() {
+                this.photos = [];
+                this.filter = 'all';
+                this.view = 'grid';
+                this.searchQuery = '';
+                this.currentLightboxIndex = 0;
+                this.db = null;
+                this.init();
+            }
+
+            async init() {
+                this.loadTheme();
+                await this.initDB();
+                await this.loadPhotos();
+                this.render();
+                this.setupPullToRefresh();
+                this.setupDragDrop();
+            }
+
+            initDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open('PhotoNotebookDB', 1);
+                    request.onerror = () => reject(request.error);
+                    request.onsuccess = () => { this.db = request.result; resolve(); };
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains('photos')) {
+                            db.createObjectStore('photos', { keyPath: 'id' });
+                        }
+                    };
+                });
+            }
+
+            async loadPhotos() {
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction('photos', 'readonly');
+                    const store = tx.objectStore('photos');
+                    const request = store.getAll();
+                    request.onsuccess = () => {
+                        this.photos = request.result.sort((a,b) => b.date - a.date);
+                        resolve();
+                    };
+                    request.onerror = () => resolve();
+                });
+            }
+
+            async saveToDB(photo) {
+                return new Promise((resolve, reject) => {
+                    const tx = this.db.transaction('photos', 'readwrite');
+                    const store = tx.objectStore('photos');
+                    const request = store.put(photo);
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject();
+                });
+            }
+
+            async deleteFromDB(id) {
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction('photos', 'readwrite');
+                    const store = tx.objectStore('photos');
+                    store.delete(id);
+                    tx.oncomplete = () => resolve();
+                });
+            }
+
+            loadTheme() {
+                const theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+
+            toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            }
+
+            getFilteredPhotos() {
+                let result = [...this.photos];
+
+                if (this.filter === 'favorites') {
+                    result = result.filter(p => p.favorite);
+                } else if (this.filter === 'recent') {
+                    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+                    result = result.filter(p => p.date > weekAgo);
+                }
+
+                if (this.searchQuery) {
+                    const q = this.searchQuery.toLowerCase();
+                    result = result.filter(p => 
+                        p.title.toLowerCase().includes(q) ||
+                        (p.tags && p.tags.some(t => t.toLowerCase().includes(q))) ||
+                        (p.category && p.category.toLowerCase().includes(q)) ||
+                        (p.description && p.description.toLowerCase().includes(q))
+                    );
+                }
+
+                return result;
+            }
+
+            render() {
+                const grid = document.getElementById('photoGrid');
+                const empty = document.getElementById('emptyState');
+                const photos = this.getFilteredPhotos();
+
+                // Update stats
+                document.getElementById('statTotal').textContent = this.photos.length;
+                document.getElementById('statFav').textContent = this.photos.filter(p => p.favorite).length;
+                const totalSize = this.photos.reduce((sum, p) => sum + (p.size || 0), 0);
+                document.getElementById('statSize').textContent = totalSize > 1024*1024 
+                    ? (totalSize/(1024*1024)).toFixed(1) + ' MB' 
+                    : (totalSize/1024).toFixed(0) + ' KB';
+
+                // Update category chips
+                const categories = [...new Set(this.photos.map(p => p.category).filter(Boolean))];
+                const chipContainer = document.getElementById('filterChips');
+                const existingCats = Array.from(chipContainer.querySelectorAll('[data-category]')).map(c => c.dataset.category);
+                categories.forEach(cat => {
+                    if (!existingCats.includes(cat)) {
+                        const chip = document.createElement('div');
+                        chip.className = 'chip';
+                        chip.dataset.category = cat;
+                        chip.textContent = cat;
+                        chip.onclick = () => this.setCategoryFilter(cat);
+                        chipContainer.appendChild(chip);
+                    }
+                });
+
+                if (photos.length === 0) {
+                    grid.innerHTML = '';
+                    empty.style.display = 'block';
+                    return;
+                }
+                empty.style.display = 'none';
+
+                grid.innerHTML = photos.map((photo, idx) => `
+                    <div class="photo-card" style="animation-delay: ${idx * 0.05}s" onclick="app.openLightbox('${photo.id}')">
+                        <div class="img-wrap">
+                            <img src="${photo.data}" alt="${photo.title}" loading="lazy">
+                            ${photo.category ? `<span class="category-badge">${photo.category}</span>` : ''}
+                            <button class="fav-btn ${photo.favorite ? 'active' : ''}" 
+                                onclick="event.stopPropagation(); app.toggleFavorite('${photo.id}')">
+                                ${photo.favorite ? '❤️' : '🤍'}
+                            </button>
+                        </div>
+                        <div class="content">
+                            <h3>${this.escapeHtml(photo.title)}</h3>
+                            <div class="meta">
+                                <span>🕒 ${this.formatDate(photo.date)}</span>
+                                ${photo.size ? `<span>• ${(photo.size/1024).toFixed(0)} KB</span>` : ''}
+                            </div>
+                            ${photo.tags && photo.tags.length ? `
+                                <div class="tags">
+                                    ${photo.tags.map(t => `<span class="tag">#${this.escapeHtml(t)}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="actions">
+                            <button onclick="event.stopPropagation(); app.downloadPhoto('${photo.id}')">⬇️ Save</button>
+                            <button class="delete" onclick="event.stopPropagation(); app.deletePhoto('${photo.id}')">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                grid.className = 'photo-grid ' + this.view;
+            }
+
+            setFilter(filter) {
+                this.filter = filter;
+                document.querySelectorAll('.chip').forEach(c => {
+                    c.classList.toggle('active', c.dataset.filter === filter || c.dataset.category === filter);
+                });
+                this.render();
+            }
+
+            setCategoryFilter(cat) {
+                this.filter = cat;
+                document.querySelectorAll('.chip').forEach(c => {
+                    c.classList.toggle('active', c.dataset.category === cat);
+                });
+                this.render();
+            }
+
+            setView(view) {
+                this.view = view;
+                document.getElementById('btnGrid').classList.toggle('active', view === 'grid');
+                document.getElementById('btnList').classList.toggle('active', view === 'list');
+                this.render();
+            }
+
+            search() {
+                this.searchQuery = document.getElementById('searchInput').value;
+                this.render();
+            }
+
+            openAddModal() {
+                document.getElementById('addModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                this.resetForm();
+            }
+
+            closeAddModal() {
+                document.getElementById('addModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            resetForm() {
+                document.getElementById('fileInput').value = '';
+                document.getElementById('previewImg').style.display = 'none';
+                document.getElementById('photoTitle').value = '';
+                document.getElementById('photoCategory').value = 'General';
+                document.getElementById('photoTags').value = '';
+                document.getElementById('photoDesc').value = '';
+                document.getElementById('saveBtn').disabled = true;
+                this.currentFile = null;
+            }
+
+            handleFile(file) {
+                if (!file) return;
+                this.currentFile = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.getElementById('previewImg');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('saveBtn').disabled = false;
+                    if (!document.getElementById('photoTitle').value) {
+                        document.getElementById('photoTitle').value = file.name.replace(/\.[^/.]+$/, '');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+
+            async savePhoto() {
+                if (!this.currentFile) return;
+
+                const btn = document.getElementById('saveBtn');
+                btn.disabled = true;
+                btn.textContent = 'Saving...';
+
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const photo = {
+                        id: 'photo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                        title: document.getElementById('photoTitle').value || 'Untitled',
+                        category: document.getElementById('photoCategory').value,
+                        tags: document.getElementById('photoTags').value.split(',').map(t => t.trim()).filter(Boolean),
+                        description: document.getElementById('photoDesc').value,
+                        data: e.target.result,
+                        date: Date.now(),
+                        size: this.currentFile.size,
+                        favorite: false
+                    };
+
+                    await this.saveToDB(photo);
+                    this.photos.unshift(photo);
+                    this.render();
+                    this.closeAddModal();
+                    this.showToast('Photo saved successfully!', 'success');
+                    btn.textContent = 'Save Photo';
+                };
+                reader.readAsDataURL(this.currentFile);
+            }
+
+            async deletePhoto(id) {
+                if (!confirm('Delete this photo? This cannot be undone.')) return;
+                await this.deleteFromDB(id);
+                this.photos = this.photos.filter(p => p.id !== id);
+                this.render();
+                this.showToast('Photo deleted', 'success');
+            }
+
+            async toggleFavorite(id) {
+                const photo = this.photos.find(p => p.id === id);
+                if (!photo) return;
+                photo.favorite = !photo.favorite;
+                await this.saveToDB(photo);
+                this.render();
+                this.showToast(photo.favorite ? 'Added to favorites' : 'Removed from favorites', 'success');
+            }
+
+            downloadPhoto(id) {
+                const photo = this.photos.find(p => p.id === id);
+                if (!photo) return;
+                const a = document.createElement('a');
+                a.href = photo.data;
+                a.download = photo.title + '.jpg';
+                a.click();
+                this.showToast('Download started', 'success');
+            }
+
+            openLightbox(id) {
+                const photos = this.getFilteredPhotos();
+                this.currentLightboxIndex = photos.findIndex(p => p.id === id);
+                if (this.currentLightboxIndex === -1) return;
+                this.updateLightbox();
+                document.getElementById('lightbox').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            updateLightbox() {
+                const photos = this.getFilteredPhotos();
+                const photo = photos[this.currentLightboxIndex];
+                if (!photo) return;
+                document.getElementById('lightboxImg').src = photo.data;
+                document.getElementById('lightboxInfo').innerHTML = `
+                    <h3>${this.escapeHtml(photo.title)}</h3>
+                    <p>${photo.category || 'General'} • ${this.formatDate(photo.date)} 
+                    ${photo.tags && photo.tags.length ? '• #' + photo.tags.join(' #') : ''}</p>
+                `;
+            }
+
+            navLightbox(dir) {
+                const photos = this.getFilteredPhotos();
+                this.currentLightboxIndex = (this.currentLightboxIndex + dir + photos.length) % photos.length;
+                this.updateLightbox();
+            }
+
+            closeLightbox() {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            showImportExport() {
+                document.getElementById('sheetOverlay').classList.add('active');
+                document.getElementById('sheet').classList.add('active');
+            }
+
+            closeSheet() {
+                document.getElementById('sheetOverlay').classList.remove('active');
+                document.getElementById('sheet').classList.remove('active');
+            }
+
+            exportData() {
+                const data = { photos: this.photos, exportedAt: Date.now() };
+                const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `photo-notebook-backup-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                this.closeSheet();
+                this.showToast('Backup exported!', 'success');
+            }
+
+            async importData(input) {
+                const file = input.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data.photos && Array.isArray(data.photos)) {
+                            for (const photo of data.photos) {
+                                await this.saveToDB(photo);
+                            }
+                            await this.loadPhotos();
+                            this.render();
+                            this.showToast(`Imported ${data.photos.length} photos!`, 'success');
+                        }
+                    } catch (err) {
+                        this.showToast('Invalid backup file', 'error');
+                    }
+                    this.closeSheet();
+                };
+                reader.readAsText(file);
+            }
+
+            async clearAll() {
+                if (!confirm('WARNING: This will delete ALL photos permanently! Are you sure?')) return;
+                const tx = this.db.transaction('photos', 'readwrite');
+                const store = tx.objectStore('photos');
+                store.clear();
+                tx.oncomplete = () => {
+                    this.photos = [];
+                    this.render();
+                    this.closeSheet();
+                    this.showToast('All photos cleared', 'success');
+                };
+            }
+
+            setupPullToRefresh() {
+                let startY = 0;
+                const hint = document.getElementById('ptrHint');
+                document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+                document.addEventListener('touchmove', (e) => {
+                    if (window.scrollY === 0 && e.touches[0].clientY > startY + 80) {
+                        hint.classList.add('visible');
+                    }
+                }, { passive: true });
+                document.addEventListener('touchend', () => {
+                    if (hint.classList.contains('visible')) {
+                        hint.classList.remove('visible');
+                        this.render();
+                        this.showToast('Refreshed!', 'success');
+                    }
+                });
+            }
+
+            setupDragDrop() {
+                const zone = document.getElementById('uploadZone');
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    zone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, false);
+                });
+                zone.addEventListener('dragenter', () => zone.classList.add('dragover'));
+                zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+                zone.addEventListener('drop', (e) => {
+                    zone.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length) this.handleFile(files[0]);
+                });
+            }
+
+            showToast(msg, type = 'success') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = type === 'success' ? '✅ ' + msg : '❌ ' + msg;
+                container.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            formatDate(ts) {
+                const d = new Date(ts);
+                const now = new Date();
+                const diff = now - d;
+                if (diff < 60000) return 'Just now';
+                if (diff < 3600000) return Math.floor(diff/60000) + 'm ago';
+                if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago';
+                if (diff < 604800000) return Math.floor(diff/86400000) + 'd ago';
+                return d.toLocaleDateString();
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                app.closeLightbox();
+                app.closeAddModal();
+                app.closeSheet();
+            }
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') app.navLightbox(-1);
+                if (e.key === 'ArrowRight') app.navLightbox(1);
+            }
+        });
+
+        const app = new PhotoNotebook();
+
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', e => self.skipWait());
+                self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+        }
+    </script>
+</body>
+</html>
